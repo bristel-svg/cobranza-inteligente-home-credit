@@ -103,8 +103,7 @@ def _prepare_lgbm_frame(
     categorical_cols: list[str],
     categorical_levels: dict[str, list[str]] | None = None,
 ) -> pd.DataFrame:
-    """Prepara DataFrame para LightGBM sin StandardScaler ni OneHotEncoder.
-
+    """
     LightGBM maneja valores faltantes y variables categóricas de pandas. Para que el
     scoring sea estable, las categorías se fijan según entrenamiento; categorías nuevas
     en producción quedan como missing.
@@ -394,21 +393,7 @@ def train_models(
     validation_size: float = 0.15,
     random_state: int = DEFAULT_RANDOM_STATE,
 ) -> ModelArtifacts:
-    """Entrena un Hurdle Model profesional para cobranza.
 
-    Arquitectura:
-    1) LightGBMClassifier estima P(regulariza en el horizonte | X).
-    2) LightGBMRegressor estima E(monto recuperado | regulariza = 1, X).
-    3) La recuperación esperada se calcula como probabilidad * monto condicional acotado.
-
-    Diseño técnico:
-    - Split por cliente para reducir fuga entre train/test.
-    - Early stopping con set de validación separado.
-    - Calibración Platt en set separado del early stopping.
-    - Categóricas nativas de LightGBM, sin OneHotEncoder en el modelo productivo.
-    - Sin StandardScaler, porque los árboles no requieren escalamiento.
-    - Baseline RandomForest para medir ganancia incremental.
-    """
     _require_lightgbm()
 
     feature_columns, numeric_cols, categorical_cols = _clean_column_lists(df, numeric_cols, categorical_cols)
