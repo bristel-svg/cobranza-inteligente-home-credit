@@ -1,0 +1,50 @@
+# Entorno virtual
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Datos pesados o externos
+data/raw/
+data/interim/
+data/processed/
+*.parquet
+*.feather
+
+# Modelos entrenados
+models/
+*.joblib
+*.pkl
+*.pickle
+
+# Outputs completos
+outputs/
+!outputs_demo/
+
+# Logs
+*.log
+*_log.txt
+
+# Credenciales y variables de entorno
+.env
+*.env
+kaggle.json
+credentials.json
+token.json
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# VS Code opcional
+.vscode/
