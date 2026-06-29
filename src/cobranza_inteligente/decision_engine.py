@@ -54,21 +54,7 @@ def recommend_actions(
     cost_call: float = 1200,
     cost_specialist: float = 5000,
 ) -> pd.DataFrame:
-    """Asigna acción, prioridad y valor esperado neto para una cartera de cobranza.
 
-    Supuesto central del motor:
-    - ``prob_regulariza`` estima P(regulariza = 1 | X).
-    - ``monto_recuperado_pred`` estima E(monto recuperado | regulariza = 1, X).
-
-    Por lo tanto, bajo un Hurdle Model, la recuperación esperada incondicional es:
-
-        E[recuperación | X] = P(regulariza = 1 | X)
-                            * E(monto recuperado | regulariza = 1, X)
-
-    Los costos son supuestos de demo. En un proyecto real deben calibrarse con datos
-    operacionales del cliente y, idealmente, con modelos de uplift/efecto incremental
-    por canal de gestión.
-    """
     _validate_non_negative_costs(
         cost_sms=cost_sms,
         cost_whatsapp=cost_whatsapp,
@@ -178,10 +164,6 @@ def recommend_actions(
 
 def aggregate_to_current_portfolio(df: pd.DataFrame) -> pd.DataFrame:
     """Reduce múltiples eventos históricos a una fila por cliente-crédito.
-
-    Home Credit contiene varias cuotas por el mismo SK_ID_CURR/SK_ID_PREV. Para una
-    pantalla comercial de cobranza conviene mostrar una sola acción por crédito. Se conserva
-    el evento con mayor valor esperado neto dentro de cada cliente-crédito.
     """
     if df.empty or not {"SK_ID_CURR", "SK_ID_PREV"}.issubset(df.columns):
         return df.copy()
