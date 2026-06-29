@@ -480,7 +480,7 @@ def optimize_action_assignment_milp(
              sum_{i,a} x_{i,a} <= capacidad
              x_{i,a} ∈ {0,1}
 
-    Esta es la versión más profesional: el optimizador no solo elige a quién contactar,
+    el optimizador no solo elige a quién contactar,
     sino también qué acción asignar.
     """
     limits = _validate_common_inputs(budget, capacity, channel_limits, max_contacts_per_customer=1)
